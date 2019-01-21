@@ -1,29 +1,35 @@
 #include <stdlib.h>
 #include <stdio.h>
-typedef struct myS myS;
-typedef struct ItS ItS;
+typedef struct listS listS;
+typedef struct ItemS ItemS;
 
-#define SET_DATA(type, ptr, value) \
+#define LIST_SET_DATA(type, ptr, value) \
 {\
-    type *data = extend(ptr);\
+    type *data = list_extend(ptr);\
     if(data != NULL)\
     {\
         *data = value;\
     }\
 }
-#define GET_DATA(type, ptr) *((type*)ptr->data)
+#define LIST_GET_DATA(type, ptr) *((type*)ptr->data)
 
-struct myS{
-    ItS* head;
+#define LIST_GET_AT(type, index, ptr) ((list_getElementAt(index, ptr) != NULL) ? *((type*)list_getElementAt(index, ptr)) : 0)
+
+struct listS{
+    ItemS* head;
+    ItemS* tail;
     size_t dataSize;
     unsigned int listSize;
 };
-struct ItS{
-    ItS* next;
+struct ItemS{
+    ItemS* next;
+    ItemS* prev;
     void* data;
 };
 
-void* setUp(size_t s);
-void* extend(myS* p);
-void tearDown(myS *p);
-void printl(char* printWay, myS* l);
+void* list_setUp(size_t s);
+void* list_extend(listS* p);
+void list_removeElementAt(int index, listS* p);
+void list_tearDown(listS *p);
+void* list_getItemAt(int index, listS* p);
+void* list_getElementAt(int index, listS* p);
