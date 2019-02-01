@@ -19,6 +19,8 @@ void* list_extend(listS* p)
 
     ItemS *thisItem = p->tail;
     thisItem->next = malloc(p->dataSize);
+    if(thisItem->next == NULL) return NULL;
+
     thisItem->next->prev = thisItem;
     p->tail = thisItem->next;
     p->tail->data = NULL;
